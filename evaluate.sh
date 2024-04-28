@@ -12,6 +12,18 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+if [[ " $@ " =~ " --use-armnn " ]]; then
+    ARMNN_PATH_ARG=$(echo "$@" | grep -oP '(?<=--armnn-path )[^ ]+')
+    if [ -z "$ARMNN_PATH_ARG" ]; then
+        # --armnn-path not set, use default path
+        export LD_LIBRARY_PATH="$(pwd)/ArmNN-aarch64:${LD_LIBRARY_PATH}"
+    else
+        # --armnn-path is set, extract directory and add to LD_LIBRARY_PATH
+        ARMNN_DIR=$(dirname "$(realpath "$ARMNN_PATH_ARG")")
+        export LD_LIBRARY_PATH="${ARMNN_DIR}:${LD_LIBRARY_PATH}"
+    fi
+fi
+
 python evaluate.py "$@"
 
 deactivate

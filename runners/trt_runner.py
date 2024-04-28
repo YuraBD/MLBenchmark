@@ -25,6 +25,7 @@ class TRTRunner():
             self.engine = self.load_engine(engine_path)
             self.context = self.engine.create_execution_context()
             self.inputs, self.outputs, self.bindings, self.stream = self.allocate_buffers()
+            self.batch_size = 1
 
     def load_engine(self, engine_path):
         with open(engine_path, "rb") as f, trt.Runtime(self.trt_logger) as runtime:
@@ -47,11 +48,12 @@ class TRTRunner():
                 outputs.append(HostDeviceMem(host_mem, device_mem))
         return inputs, outputs, bindings, stream
 
-    def do_inference(self):
+    def do_inference(self, single_input):
+        self.inputs[0].host = single_input
         [cuda.memcpy_htod_async(inp.device, inp.host, self.stream) for inp in self.inputs]
-        start_time = time.time()
+        start_time = time.perf_counter()
         self.context.execute_async(batch_size=self.batch_size, bindings=self.bindings, stream_handle=self.stream.handle)
-        end_time = time.time()
+        end_time = time.perf_counter()
         [cuda.memcpy_dtoh_async(out.host, out.device, self.stream) for out in self.outputs]
         self.stream.synchronize()
         return [np.array([out.host for out in self.outputs]), end_time - start_time]
@@ -62,7 +64,6 @@ class TRTRunner():
         parser = trt.OnnxParser(network, self.trt_logger)
 
         config = builder.create_builder_config()
-        config.max_workspace_size = 1 << 28 # 256MiB
         builder.max_batch_size = 1
 
         with open(onnx_path, 'rb') as model:

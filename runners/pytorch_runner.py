@@ -27,13 +27,13 @@ class PytorchRunner():
         model.eval()
         return model
 
-    def do_inference(self, input):
-        input_tensor = torch.from_numpy(input).unsqueeze(0).to(self.device)
+    def do_inference(self, single_input):
+        input_tensor = torch.from_numpy(single_input).unsqueeze(0).to(self.device)
 
-        start_time = time.time()
+        start_time = time.perf_counter()
         with torch.no_grad():
             output = self.model(input_tensor)
-        end_time = time.time()
+        end_time = time.perf_counter()
 
         return [np.array(output), end_time - start_time]
 

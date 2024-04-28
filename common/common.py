@@ -21,6 +21,10 @@ fr_runners_map = {
             'module': 'trt_runner',
             'class': 'TRTRunner'
         },
+        'coral': {
+            'module': 'coral_runner',
+            'class': 'CoralRunner'
+        }
     }
 
 
