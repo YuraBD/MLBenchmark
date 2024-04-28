@@ -150,8 +150,12 @@ More about what is causing it could be found here https://pypi.org/project/onnx2
 So it is recommended to use the original TensorFlow models for full-integer quantization to avoid this problems.
 
 
-
-
+## Experiments
+Some experiments were done using a benchmark. We measured performance on all supported devices with all supported frameworks for such models: ResNet50, MobileNetV2, EfficientNetB0. Here are obtained results:
+![plot](./images/resnet_cpu.png)
+![plot](./images/mobilenet_cpu.png)
+![plot](./images/efficientnet_cpu.png)
+![plot](./images/accelerators.png)
 
 
 
