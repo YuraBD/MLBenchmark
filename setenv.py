@@ -5,13 +5,14 @@ import common.identify_device as ident_dev
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Manage framework dependencies for conversion.')
-    parser.add_argument('--origin-fr', type=str, choices=['pytorch', 'onnx', 'tensorflow', 'tflite', 'tensorrt'],
-                        help='Specify the origin framework.')
-    parser.add_argument('--target-fr', type=str, choices=['onnx', 'tflite', 'tensorrt'],
-                        help='Specify the target framework.')
+    parser = argparse.ArgumentParser(description='Usage of setenv.py')
+    parser.add_argument('--origin-fr', type=str, choices=['pytorch', 'onnx', 'tensorflow', 'tflite', 'tensorrt', 'coral'],
+                        help='Specify only this if you already have converted model and want just to evaluate it')
+    parser.add_argument('--target-fr', type=str, choices=['onnx', 'tflite', 'tensorrt', 'coral'],
+                        help='Specify this and --origin-fr if you want to install dependencies that will be needed to convert\
+                            model from --origin-fr to --target-fr and measure performance')
     parser.add_argument('--all', action='store_true',
-                        help='Install all dependencies for the most common frameworks and conversions.')
+                        help='Install all dependencies')
     
     args = parser.parse_args()
 

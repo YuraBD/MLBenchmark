@@ -74,26 +74,31 @@ def evaluate(args):
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Process some inputs for model inference.')
+    parser = argparse.ArgumentParser(description='Usage of evaluate.sh:')
 
     parser.add_argument('model_path', type=str, help='Path to the model file')
     parser.add_argument('data_path', type=str, help='Path to the data file')
     parser.add_argument('framework', type=str, choices=['pytorch', 'tflite', 'onnx', 'tensorrt', 'coral'],
-                        help='The framework of the model (e.g., pytorch, tensorflow, onnx)')
-    parser.add_argument('--use-armnn', action='store_true', help='Use ARMNN delegate to speed up inference on ARM architecture CPU')
-    parser.add_argument('--armnn-path', type=str, default='ArmNN-aarch64/libarmnnDelegate.so')
-    parser.add_argument('--use-softmax', action='store_true')
+                        help='The framework that will be used to test the model')
+    parser.add_argument('--use-armnn', action='store_true', help='Use ARM NN delegate to speed up inference on ARM architecture CPU.\
+                        Works only with float32 TFLite model')
+    parser.add_argument('--armnn-path', type=str, default='ArmNN-aarch64/libarmnnDelegate.so', help='Path to ARM NN delegate')
+    parser.add_argument('--use-softmax', action='store_true', default='Use softmax on model output for predictions')
     parser.add_argument('--model-type', type=str, default='classification', choices=['classification', 'regression'],
-                        help='Type of the model (classification or regression)')
+                        help='Type of the model: classification or regression')
     parser.add_argument('--model-class-path', type=str, default=None,
-                        help='The path to the model class file (optional)')
+                        help='If using Pytorch this must be set. Path to file with model architecture (class)')
     parser.add_argument('--model-class-name', type=str, default=None,
-                        help='The name of the model class (optional)')
-    parser.add_argument('--do-not-keep-shape', action='store_true')
-    parser.add_argument('--transposed-data-path', type=str, help='Path to the transposed data file')
-    parser.add_argument('--convert-only', action='store_true')
-    parser.add_argument('--quantization', action='store_true')
-    parser.add_argument('--representative-data-path', type=str, default=None)
+                        help='If using Pytorch this must be set. Name of class of model architecture')
+    parser.add_argument('--do-not-keep-shape', action='store_true', help='By default when converting model from onnx to tensorflow\
+                        the input shape is kept by adding Transpose in the begginig, because PyTorch and ONNX mostly uses CHW input shape,\
+                        while TensorFlow uses HWC. Set this to not keep shape. If set --transposed-data-path must also be provided')
+    parser.add_argument('--transposed-data-path', type=str, help='Path to transposed data. It must be set if using -do-not-keep-shape')
+    parser.add_argument('--convert-only', action='store_true', help='Do not measre performance, only convert model to provided framework')
+    parser.add_argument('--quantization', action='store_true', help='Use full-integer quantization. If model is not quantized then\
+                        --representative-data-path must be also provided. If using already quantized model just set --quantization')
+    parser.add_argument('--representative-data-path', type=str, default=None, help='Path to representative dataset for full-integer quantization.\
+                        It could be the subset of training data around 100-500 samples')
 
     args = parser.parse_args()
 
