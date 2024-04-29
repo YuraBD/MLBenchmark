@@ -90,8 +90,11 @@ $ ./evaluate.sh resnet50 data.npz tflite --quantization --representative-data-pa
 # commands where converting to tflite to use ARM NN
 $ ./evaluate.sh resnet50.tflite data.npz tflite --use-armnn
 ```
-The data should be provided as .npz file with x_data, y_data exactly in this order. x_data must be an array of inputs, without batch dimension. Benchmark is doing inference with batch size 1
-If model was quantized, original float data could be given, it will be converted to int8 during performance measurement.
+Input data requirements:
+* data must be provided only as *.npz file
+* it must consist of x_data, y_data exactly in this order
+* x_data must be array of inputs without batch dimention. Benchmarking tool will do inference with batch size 1
+* If given model is quantized, original float data could be given. It will be converted to int8 during performance measurement
 
 It is also possible just to convert model without measuring performance by using `--convert-only`
 
