@@ -108,7 +108,7 @@ After that just run:
 ```bash
 $ ./evaluate.sh resnet50_edgetpu.tflite data.npz coral
 ```
-To test benchmark there is ResNet50 model and preprocessed images in `test_data`
+To test benchmark there some examples in `examples` folder
 
 ## Script parameters
 ```bash
