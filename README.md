@@ -1,6 +1,8 @@
 # Deep Learning models benchmarking tool for single-board microcomputers of ARM architecture
 Benchmark designed to evaluate performance of Deep Learning models on single-board microcomputers of ARM architecture
+
 Demonstration can be found here: https://youtu.be/2me7M3tAKrk
+
 Currently the following platforms are supported:
 * Nvidia Jetson Nano
 * Raspberry Pi 4 Model B
