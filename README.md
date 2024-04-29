@@ -67,6 +67,8 @@ options:
 
 If want to use ARMNN delegate install pre-built binaries from source: https://github.com/ARM-software/armnn/releases
 
+For Raspberry Pi 4 and 5 the last tested and working version was 24.02. For Nvidia Jetson Nano - 22.11
+
 If using Nvidia Jetson Nano, separate virtual environment must be manually created and TensorRT installed there. It is not done in `setenv.py` because Jetson Nano has old software and in most cases it should be built from sources.
 Tested TensorRT version: 8.2.1.9
 
