@@ -82,7 +82,7 @@ def parse_args():
                         help='The framework that will be used to test the model')
     parser.add_argument('--use-armnn', action='store_true', help='Use ARM NN delegate to speed up inference on ARM architecture CPU.\
                         Works only with float32 TFLite model')
-    parser.add_argument('--armnn-path', type=str, default='ArmNN-aarch64/libarmnnDelegate.so', help='Path to ARM NN delegate')
+    parser.add_argument('--armnn-path', type=str, default='{os.path.dirname(os.path.abspath(__file__))}/ArmNN-aarch64/libarmnnDelegate.so', help='Path to ARM NN delegate')
     parser.add_argument('--use-softmax', action='store_true', default='Use softmax on model output for predictions')
     parser.add_argument('--model-type', type=str, default='classification', choices=['classification', 'regression'],
                         help='Type of the model: classification or regression')

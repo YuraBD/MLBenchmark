@@ -48,7 +48,6 @@ class TFLiteRunner():
             if model_type == 'classification':
                 converter.inference_input_type = tf.int8
                 converter.inference_output_type = tf.int8
-            tflite_model = converter.convert()
 
         tflite_model = converter.convert()
         with open(tflite_path, 'wb') as f:

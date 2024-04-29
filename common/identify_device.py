@@ -13,7 +13,7 @@ def identify_device():
             elif 'Raspberry Pi 4' in model_info:
                 return 'Raspberry Pi 4'
             elif 'Raspberry Pi 5' in model_info:
-                return 'Raspberry Pi 4'
+                return 'Raspberry Pi 5'
 
     if platform.processor() in ('x86_64', 'AMD64'):
         return 'Desktop PC'
